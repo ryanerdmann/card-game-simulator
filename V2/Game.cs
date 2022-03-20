@@ -44,7 +44,7 @@
         {
             _strategy.Initialize(this);
 
-            while (_deck.Count > 0 && Hand.Count > 0 && !IsHandAllAces())
+            while (_deck.Count > 0 && Hand.Count > 0 && !IsValidHand())
             {
                 Guess();
             }
@@ -52,7 +52,12 @@
             return _deck.Count;
         }
 
-        private bool IsHandAllAces() => Hand.Min.IsAce() && Hand.Max.IsAce();
+        private bool IsValidHand()
+        {
+            // The game terminates if the entire hand is aces, but
+            // we are not yet able to choose one.
+            return AcesAreHigh == null && Hand.Min.IsAce() && Hand.Max.IsAce();
+        }
 
         private void Guess()
         {
